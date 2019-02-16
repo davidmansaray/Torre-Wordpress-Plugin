@@ -20,7 +20,7 @@ function torre_resume_menu() {
     $menu_title = 'Resume';
     $capability = 'manage_options';
     $menu_slug  = 'torre-resume';
-    $function   = 'torre_resume_settings';
+    $function   = 'torre_resume_settings_html';
     $icon_url   = 'dashicons-media-document';
     $position   = 4;
 
@@ -36,15 +36,27 @@ function torre_resume_menu() {
 
 //Torre resume plugin settings page
 
-function torre_resume_settings () {
+function torre_resume_settings_html () {
     if ( !current_user_can( 'manage_options' ) )  {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	}
-	echo '<div class="wrap">';
-	echo '<p>This is where the form which will capture the Torre username will go</p>';
-	echo '</div>';
-}
+    
+    if (isset($_POST['torre_username'])) {
+        $value = $_POST['torre_username'];
+        update_option('torre_username', $value);
+    }
 
+    $value = get_option('torre_username');
+        
+	
+    include 'username-form.php';
+    
+    
+        
+        
+    
+	
+}
 
 
 ?>
