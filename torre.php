@@ -50,13 +50,73 @@ function torre_resume_settings_html () {
         
 	
     include 'username-form.php';
-    
-    
-        
-        
-    
+ 
 	
 }
+
+
+// Register and load widget
+function torre_load_widget() {
+    register_widget( 'torre_profile_card_widget' );
+}
+add_action( 'widgets_init', 'torre_load_widget' );
+ 
+// Creating widget 
+class torre_profile_card_widget extends WP_Widget {
+ 
+function __construct() {
+parent::__construct(
+ 
+// Base ID of widget
+'torre_profile_card_widget', 
+ 
+// Widget name that  will appear in UI
+__('Torre profile card Widget', 'torre_profile_card_widget_domain'), 
+ 
+// Widget description
+array( 'description' => __( 'Show your Torre.co profile card in the sidebar', 'torre_profile_card_widget_domain' ), ) 
+);
+}
+ 
+//  Widget front-end
+ 
+public function widget( $args, $instance ) {
+    include 'torre_widget.php';
+
+ 
+echo $args['before_widget'];
+if ( ! empty( $title ) )
+echo $args['before_title'] . $title . $args['after_title'];
+ 
+// Display output
+
+echo $args['after_widget'];
+}
+         
+// Widget Backend 
+public function form( $instance ) {
+if ( isset( $instance[ 'title' ] ) ) {
+$title = $instance[ 'title' ];
+}
+else {
+$title = __( 'New title', 'torre_profile_card_widget_domain' );
+}
+// Widget admin form
+?>
+<p>
+<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+</p>
+<?php 
+}
+     
+// Updating widget and replace old instances with new
+public function update( $new_instance, $old_instance ) {
+$instance = array();
+$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+return $instance;
+}
+} // Class torre_profile_card_widget ends here
 
 
 ?>
