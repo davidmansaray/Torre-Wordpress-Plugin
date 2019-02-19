@@ -20,9 +20,5 @@
 
         </div>
         
-        <div id="view-resume">
-
-            <a href="http://localhost:8888/dev.environment/resume/" target="_blank"> View resume </a></p>
-
-        </div>
+       
 </div>       
